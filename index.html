@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="renderer" content="webkit|ie-comp|ie-stand">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+	<meta http-equiv="Cache-Control" content="no-siteapp" />
+	<title>reCAPTCHA_v2</title>
+	<script src="https://www.recaptcha.net/recaptcha/api.js"></script>
+</head>
+<body>
+<div class='g-recaptcha' data-sitekey='6LfMLX8UAAAAAJYM9GBXRxYxmK2DUUVAHnPqVC4H' data-callback='recaptchaCallback'></div>
+<script type="text/javascript">
+  function recaptchaCallback(data) {
+    var resp = grecaptcha.getResponse()
+    console.log(resp)
+    console.log(data)
+    // grecaptcha.reset()
+    if (data === resp) {
+      let ajax = new Ajax()
+        ajax.send({
+          method: "POST",
+          url: "/verify",
+          resType: "json",
+          data: {
+              code: verifyCode//将g-recaptcha-response值传到后端
+          },
+          success: function (data) {
+              var ret = JSON.stringify(data)
+              console.log(ret)
+          }
+        })
+    }
+  }
+</script>
+</body>
+</html>
